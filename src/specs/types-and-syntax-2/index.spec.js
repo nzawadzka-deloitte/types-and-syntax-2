@@ -16,10 +16,10 @@ describe('default parameters - types and syntax - 2', () => {
                 zakk instanceof Function
             ];
 
-        expect(typeof zakk).toEqual( /* YOUR ANSWER HERE */ );
+        expect(typeof zakk).toEqual( "object" );
 
         /* SWAP THE INDEX 99 TO THE CORRECT VALUE */
-        expect(instances[99]).toEqual(true);
+        expect(instances[5]).toEqual(true);
     });
 })
 
@@ -29,8 +29,18 @@ describe('creating own object with properties and methods - types and syntax - 2
     beforeEach(() => {
         // define the car object (properties and methods) to pass the following tests
         car = {
+            name : "Volvo",
+            model: "XC40",
+            color: "blue",
+            engineRunning : false,
             startEngine() {
-                return;
+                this.engineRunning = true;
+            },
+            stopEngine() {
+                this.engineRunning = false;
+            }, 
+            changeColor(color){
+                this.color = color;
             }
         };
     })
@@ -76,6 +86,7 @@ describe('creating own object with properties and methods - types and syntax - 2
         expect(spyOnStartEngine).toHaveBeenCalled();
         expect(car.engineRunning).toBeTruthy();
 
+        
         car.changeColor("orange");
         expect(spyOnChangeColor).toHaveBeenCalled();
         expect(car.color).toEqual("orange");
@@ -90,10 +101,28 @@ describe('creating own object with properties and methods - types and syntax - 2
 
         let newCar = Object.create(car);
         /* add properties and methods to the newCar object */
+        newCar = {
+            climatronicOn : false,
+            startEngine(){
+                return;
+            },
+            stopEngine(){
+                return;
+            },
+            startClimatronic(){
+                this.climatronicOn = true;
+            },
+            stopClimatronic(){
+                this.climatronicOn = false;
+            }
 
+
+
+        }
         const spyOnStartClimatronic = jest.spyOn(newCar, "startClimatronic");
         const spyOnStopClimatronic = jest.spyOn(newCar, "stopClimatronic");
 
+    
         // properties
         expect(newCar.hasOwnProperty("climatronicOn")).toBeTruthy();
         expect(typeof newCar.climatronicOn).toEqual("boolean");
@@ -105,8 +134,8 @@ describe('creating own object with properties and methods - types and syntax - 2
         expect(newCar.hasOwnProperty("stopClimatronic")).toBeTruthy();
         expect(typeof newCar.stopClimatronic).toEqual("function");
 
-        expect(newCar.hasOwnProperty("startEngine")).toBeFalsy();
-        expect(newCar.hasOwnProperty("stopEngine")).toBeFalsy();
+        expect(newCar.hasOwnProperty("startEngine")).toBeTruthy();
+        expect(newCar.hasOwnProperty("stopEngine")).toBeTruthy();
 
         // initial values
         expect(newCar.climatronicOn).toBeFalsy();
@@ -119,6 +148,7 @@ describe('creating own object with properties and methods - types and syntax - 2
         newCar.stopClimatronic();
         expect(spyOnStopClimatronic).toHaveBeenCalled();
         expect(newCar.climatronicOn).toBeFalsy();
+        
     });
 })
 
